@@ -6,7 +6,7 @@ mrhyde.on('page', function(url) {
     var page = require('webpage').create();
     page.open(url, function(status) {
         mrhyde.emit("open");
-        page.render(url + ".png");
+        page.render("render.png");
         mrhyde.emit("render");
         page.close();
     });
