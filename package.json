@@ -1,0 +1,29 @@
+{
+  "name": "sleepyhollow-phantom",
+  "version": "0.0.0",
+  "description": "PhantomJS binder for two-way communication with Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/weisjohn/sleepyhollow-phantom.git"
+  },
+  "keywords": [
+    "phantomjs",
+    "phantom",
+    "IPC",
+    "inter-process",
+    "two-way",
+    "sleepyhollow",
+    "sleepyhollow-node",
+    "sleepyhollow-phantom"
+  ],
+  "author": "John Weis <weis.john@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/weisjohn/sleepyhollow-phantom/issues"
+  },
+  "homepage": "https://github.com/weisjohn/sleepyhollow-phantom"
+}
