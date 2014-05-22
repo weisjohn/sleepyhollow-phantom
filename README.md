@@ -28,4 +28,4 @@ mrhyde.on('end', function() {
 
 ```
 
-[The corresponding Node.js code](https://github.com/weisjohn/sleepyhollow-node).
+[See the usage example for the corresponding Node.js code](https://github.com/weisjohn/sleepyhollow-node#usage).
