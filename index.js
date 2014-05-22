@@ -7,7 +7,7 @@ var stdin = require('system').stdin;
 (function(window) {
     "use strict";
 
-    function _sleepyhollow() {
+    function sleepyhollow() {
 
         // the modified event-emitter bridge
         var sleepyhollow = new EventEmitter();
@@ -36,11 +36,11 @@ var stdin = require('system').stdin;
         }
 
         // minimal writing to make sure the Node side doesn't have to buffer
-        setInterval(function() { write({ "event" : "syn" }); }, 1e2);
+        setInterval(function() { write({ "event" : "syn" }); }, 1e3);
 
         return sleepyhollow;
     }
 
-    return exports = (module || {}).exports = _sleepyhollow;
+    module.exports = sleepyhollow;
 
 })(this);
