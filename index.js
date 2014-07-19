@@ -12,10 +12,26 @@ var stdin = require('system').stdin;
         // the modified event-emitter bridge
         var sleepyhollow = new EventEmitter();
         _emit = sleepyhollow.emit;
-        sleepyhollow.emit = function(event, message) {
-            if (event !== "ack") write({ event: event, message : message });
-            _emit.apply(sleepyhollow, Array.prototype.slice.call(arguments, 0));
-        }
+
+		var msgId = 0;	//each message will get it's own message ID for this instance
+		sleepyhollow.emit = function(event, message) {
+			if(!message)message=' ';
+
+			msgId++; //increment the id ctr
+
+			message
+				.match(/.{1,7936}/g)   						// create an array of strings each under 7936 characters (8192 char limit minus 256 for meta data and JSON syntax overhead)
+				.forEach(function(msg,i,o){ 				// vvv iterate vvv
+					
+					var isMultipart = o.length>1; 			// it's multipart if there is more than one index
+					var isEof = (i==o.length-1)?true:false; // mark as EOF if there are no more indicies left to pass
+					
+					if (event !== "ack") write({ msgId: msgId, isMultipart: isMultipart, isEof: isEof, event: event, message: msg });
+					_emit.apply(sleepyhollow, Array.prototype.slice.call(arguments, 0));
+				
+				})
+		}
+
 
         // custom write <> read bridge
         function write(obj) {
