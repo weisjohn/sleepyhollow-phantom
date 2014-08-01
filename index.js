@@ -13,25 +13,37 @@ var stdin = require('system').stdin;
         var sleepyhollow = new EventEmitter();
         _emit = sleepyhollow.emit;
 
-		var msgId = 0;	//each message will get it's own message ID for this instance
-		sleepyhollow.emit = function(event, message) {
-			if(!message)message=' ';
+        // each message will get it's own ID
+        var msgId = 0;
 
-			msgId++; //increment the id ctr
+        sleepyhollow.emit = function(event, message) {
+            if (!message) message = " ";
+            msgId++;
 
-			message
-				.match(/.{1,7936}/g)   						// create an array of strings each under 7936 characters (8192 char limit minus 256 for meta data and JSON syntax overhead)
-				.forEach(function(msg,i,o){ 				// vvv iterate vvv
-					
-					var isMultipart = o.length>1; 			// it's multipart if there is more than one index
-					var isEof = (i==o.length-1)?true:false; // mark as EOF if there are no more indicies left to pass
-					
-					if (event !== "ack") write({ msgId: msgId, isMultipart: isMultipart, isEof: isEof, event: event, message: msg });
-					_emit.apply(sleepyhollow, Array.prototype.slice.call(arguments, 0));
-				
-				})
-		}
+            // local emit, for other subscribers
+            _emit.apply(sleepyhollow, Array.prototype.slice.call(arguments, 0));
 
+            // if this event is an ack, bolt
+            if (event == "ack") return;
+
+            // stringify and chunk out writes
+            JSON.stringify(message)
+                // create an array of strings each under 7936 characters
+                // (8192 char limit minus 256 for meta and JSON overhead)
+                .match(/.{1,7936}/g)
+                .forEach(function(message, index, arr) {
+                    write({
+                        msgId: msgId,
+                        // if there is more than one index, it's multipart
+                        isMultipart: arr.length > 1,
+                        // EOF there are no more indicies left to pass
+                        isEof: (index == arr.length - 1),
+                        event: event,
+                        message: message
+                    });
+                });
+
+        }
 
         // custom write <> read bridge
         function write(obj) {
