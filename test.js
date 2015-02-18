@@ -3,7 +3,7 @@ var sleepyhollow = require('./index');
 var mrhyde = sleepyhollow();
 
 // generate a large string of alphabetical characters
-var len = 1e4, mod = 26, pad = 65;
+var len = 1e5, mod = 26, pad = 65;
 var response = [];
 for (var i = 0; i < len; i++) {
     var c = (i % mod) + pad;
