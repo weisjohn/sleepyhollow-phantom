@@ -37,7 +37,7 @@ var stdin = require('system').stdin;
                         // if there is more than one index, it's multipart
                         isMultipart: arr.length > 1,
                         // EOF there are no more indicies left to pass
-                        isEof: (index == arr.length - 1),
+                        isEOF: (index == arr.length - 1),
                         event: event,
                         message: message
                     });
