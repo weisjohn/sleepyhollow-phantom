@@ -28,9 +28,9 @@ var stdin = require('system').stdin;
 
             // stringify and chunk out writes
             JSON.stringify(message)
-                // create an array of strings each under 7936 characters
-                // (8192 char limit minus 256 for meta and JSON overhead)
-                .match(/.{1,7936}/g)
+                // create an array of strings each under 7680 characters
+                // (8192 char limit minus 512 for meta and JSON overhead)
+                .match(/.{1,7680}/g)
                 .forEach(function(message, index, arr) {
                     write({
                         msgId: msgId,
